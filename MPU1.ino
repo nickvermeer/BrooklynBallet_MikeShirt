@@ -136,8 +136,8 @@ uint8_t fifoBuffer[64]; // FIFO storage buffer
 uint8_t fifoBuffer2[64]; // FIFO storage buffer
 
 // orientation/motion vars
-Quaternion q;           // [w, x, y, z]         quaternion container
-Quaternion q2;           // [w, x, y, z]         quaternion container
+Quaternion quant;           // [w, x, y, z]         quaternion container
+Quaternion quant2;           // [w, x, y, z]         quaternion container
 VectorInt16 aa;         // [x, y, z]            accel sensor measurements
 VectorInt16 aaReal;     // [x, y, z]            gravity-free accel sensor measurements
 VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measurements
@@ -320,7 +320,7 @@ void MPUloop() {
 
         #ifdef OUTPUT_READABLE_QUATERNION
             // display quaternion values in easy matrix form: w x y z
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
+            mpu.dmpGetQuaternion(&quant, fifoBuffer);
             //Serial.print("quat\t");
             //Serial.print(q.w);
             //Serial.print("\t");
@@ -333,8 +333,8 @@ void MPUloop() {
 
         #ifdef OUTPUT_READABLE_EULER
             // display Euler angles in degrees
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-            mpu.dmpGetEuler(euler, &q);
+            mpu.dmpGetQuaternion(&quant, fifoBuffer);
+            mpu.dmpGetEuler(euler, &quant);
             //Serial.print("euler\t");
             //Serial.print(euler[0] * 180/M_PI);
             //Serial.print("\t");
@@ -345,9 +345,9 @@ void MPUloop() {
 
         #ifdef OUTPUT_READABLE_YAWPITCHROLL
             // display Euler angles in degrees
-            mpu.dmpGetQuaternion(&q, fifoBuffer);
-            mpu.dmpGetGravity(&gravity, &q);
-            mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+            mpu.dmpGetQuaternion(&quant, fifoBuffer);
+            mpu.dmpGetGravity(&gravity, &quant);
+            mpu.dmpGetYawPitchRoll(ypr, &quant, &gravity);
             //Serial.print("ypr\t");
             //Serial.print(ypr[0] * 180/M_PI);
             //Serial.print("\t");
@@ -399,7 +399,7 @@ void MPUloop() {
 
         #ifdef OUTPUT_READABLE_QUATERNION
             // display quaternion values in easy matrix form: w x y z
-            mpu2.dmpGetQuaternion(&q2, fifoBuffer2);
+            mpu2.dmpGetQuaternion(&quant2, fifoBuffer2);
             //Serial.print("quat\t");
             //Serial.print(q.w);
             //Serial.print("\t");
@@ -412,8 +412,8 @@ void MPUloop() {
 
         #ifdef OUTPUT_READABLE_EULER
             // display Euler angles in degrees
-            mpu2.dmpGetQuaternion(&q2, fifoBuffer2);
-            mpu2.dmpGetEuler(euler2, &q2);
+            mpu2.dmpGetQuaternion(&quant2, fifoBuffer2);
+            mpu2.dmpGetEuler(euler2, &quant2);
             //Serial.print("euler\t");
             //Serial.print(euler[0] * 180/M_PI);
             //Serial.print("\t");
@@ -424,9 +424,9 @@ void MPUloop() {
 
         #ifdef OUTPUT_READABLE_YAWPITCHROLL
             // display Euler angles in degrees
-            mpu2.dmpGetQuaternion(&q2, fifoBuffer2);
-            mpu2.dmpGetGravity(&gravity2, &q2);
-            mpu2.dmpGetYawPitchRoll(ypr2, &q2, &gravity2);
+            mpu2.dmpGetQuaternion(&quant2, fifoBuffer2);
+            mpu2.dmpGetGravity(&gravity2, &quant2);
+            mpu2.dmpGetYawPitchRoll(ypr2, &quant2, &gravity2);
             //Serial.print("ypr\t");
             //Serial.print(ypr[0] * 180/M_PI);
             //Serial.print("\t");
